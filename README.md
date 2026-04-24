@@ -1,16 +1,16 @@
-# So sánh 5 Framework Vibe Coding cho Tổ chức 500 Kỹ sư
+# So sánh 6 Framework Vibe Coding cho Tổ chức 500 Kỹ sư
 ### _Báo cáo đánh giá & khuyến nghị lựa chọn framework AI-assisted software engineering_
 
 | Metadata | |
 |---|---|
-| **Ngày báo cáo** | 2026-04-24 |
+| **Ngày báo cáo** | 2026-04-24 (bản v2 — bổ sung prism) |
 | **Người yêu cầu** | CTO / Head of Engineering |
 | **Bối cảnh tổ chức** | ~500 software engineers + ops/business; không ràng buộc compliance đặc biệt |
-| **Các framework đánh giá** | BMAD-METHOD, get-shit-done (GSD), gstack, spec-kit, superpowers |
+| **Các framework đánh giá** | BMAD-METHOD, get-shit-done (GSD), gstack, **prism (mới thêm)**, spec-kit, superpowers |
 | **Số tiêu chí** | 53 tiêu chí × 12 nhóm |
 | **Thang điểm** | 1–5 (cao hơn = tốt hơn), N/A nếu không áp dụng |
 
-> **TL;DR:** Với 500 engineers, `spec-kit` là lựa chọn **primary** (governance mạnh, scale tốt, backing GitHub). `BMAD-METHOD` là lựa chọn **secondary** (persona-driven, lifecycle đầy đủ). `GSD` hợp cho **pilot team** hoặc R&D squad. `superpowers` hợp dùng như **standard methodology layer** kèm theo. `gstack` **KHÔNG khuyến nghị** ở cấp tổ chức.
+> **TL;DR:** Với 500 engineers, `spec-kit` vẫn là lựa chọn **primary** (governance mạnh, scale tốt, backing GitHub). `BMAD-METHOD` là lựa chọn **secondary** (persona-driven, lifecycle đầy đủ). `GSD` hợp cho **pilot team** hoặc R&D squad. **`prism` — ứng viên mới**: phase-gate enterprise workflow, artifact governance mạnh, nhưng bus factor critical (1 maintainer) và scale chưa được chứng minh; hợp làm **secondary cho team chuộng document-discipline** hoặc chạy **PoC nội bộ**. `superpowers` hợp dùng như **standard methodology layer** kèm theo. `gstack` **KHÔNG khuyến nghị** ở cấp tổ chức.
 
 ---
 
@@ -33,13 +33,14 @@
 
 Công ty đang muốn triển khai **vibe coding** (AI-assisted software engineering) ở cấp **enterprise**. Câu hỏi chính: trong 5 framework đang nổi, framework nào hợp nhất với quy mô 500 engineers, nhiều team song song, không có ràng buộc pháp lý đặc biệt.
 
-### 1.2 Định vị nhanh 5 framework (one-liner)
+### 1.2 Định vị nhanh 6 framework (one-liner)
 
 | Framework | Định vị | Triết lý cốt lõi | Phù hợp nhất cho |
 |---|---|---|---|
 | **spec-kit** | **Spec-Driven Development (SDD)** của GitHub | Specs là nguồn sự thật, code là output của spec | Tổ chức trung-lớn cần governance + scale |
 | **BMAD-METHOD** | **Breakthrough Method for Agile AI-Driven Development** | Human amplification, multi-persona, 4-phase lifecycle | Team product đầy đủ PM/Dev/QA/UX |
 | **GSD (get-shit-done)** | Anti-enterprise-theater, phase-driven | Context engineering, fresh-context subagents, atomic commits | Solo/small squad muốn ship nhanh mà vẫn có kỷ luật |
+| **prism** 🆕 | **Phase-First Batch AI-SDLC** với strict document governance | "One Phase — One Prompt — One Complete Deliverable", 6-phase gated workflow | Team có process discipline (PO/UX/Arch/QA/Dev), cần formal approval gates |
 | **superpowers** | Methodology-as-skills | TDD bắt buộc, subagent-driven development, skills auto-trigger | Team nhỏ ưu tiên chất lượng code tuyệt đối |
 | **gstack** | Personal productivity toolkit của Garry Tan (YC CEO) | "Boil the Lake", solo builder ship như team 20 | Founder đơn lẻ, **KHÔNG phải framework cho team lớn** |
 
@@ -50,12 +51,14 @@ flowchart TD
     A["500 engineers<br/>không compliance"] --> B{"Cần gì nhất?"}
     B -->|"Governance + scale"| C["spec-kit: Primary"]
     B -->|"Lifecycle đầy đủ<br/>role rõ ràng"| D["BMAD-METHOD: Secondary"]
+    B -->|"Document-discipline<br/>phase gates chặt"| H["prism: Secondary alt"]
     B -->|"Methodology quality layer"| E["superpowers: Overlay"]
     B -->|"Pilot / innovation squad"| F["GSD: Sandbox"]
     B -->|"Solo founder"| G["gstack: Không áp dụng"]
 
     style C fill:#2ecc71,color:#fff
     style D fill:#3498db,color:#fff
+    style H fill:#1abc9c,color:#fff
     style E fill:#9b59b6,color:#fff
     style F fill:#f39c12,color:#fff
     style G fill:#95a5a6,color:#fff
@@ -68,12 +71,14 @@ flowchart TD
 | **spec-kit** | **88** | 🥇 1 | ★★★★★ | Dẫn đầu rõ rệt ở mọi nhóm trọng số cao (E, G, J, K) |
 | **GSD (get-shit-done)** | **79** | 🥈 2 | ★★★☆☆ | Điểm mạnh nhóm B (Architecture 5.0) & F (Maturity 4.67) đẩy lên |
 | **BMAD-METHOD** | **77** | 🥉 3 | ★★★★☆ | Enterprise-fit cao hơn GSD (role mapping, i18n), nhưng weighted score thấp hơn do Architecture/Maturity yếu hơn |
-| **gstack** | **63** | 4 | ★☆☆☆☆ | TCO tốt kéo điểm lên nhưng Artifacts/Standards quá yếu |
-| **superpowers** | **60** | 5 | ★★☆☆☆ | Yếu nhất ở Enterprise Readiness + Operational Scale |
+| **prism** 🆕 | **67** | 4 | ★★★☆☆ | Artifacts/Standards mạnh (4.25), Philosophy tốt (4.50), nhưng bus factor = 1, Maturity thấp (2.67) kéo tụt |
+| **gstack** | **63** | 5 | ★☆☆☆☆ | TCO tốt kéo điểm lên nhưng Artifacts/Standards quá yếu |
+| **superpowers** | **60** | 6 | ★★☆☆☆ | Yếu nhất ở Enterprise Readiness + Operational Scale |
 
 > **Lưu ý quan trọng khi đọc thứ hạng:**
 > - **Weighted score ≠ Enterprise-fit**. GSD vượt BMAD về _tổng điểm_ nhưng _enterprise-fit_ (nhóm E+G+J) của BMAD vẫn tốt hơn (3.63 vs 3.58) — phù hợp product team hơn.
-> - **Với bối cảnh 500 engineers**, hãy ưu tiên các nhóm **E (15%) + G (12%) + J (12%) = 39% tổng trọng số**. Xem thứ hạng enterprise-fit ở [§5.3.2](#532-t%E1%BB%95ng-quan-5-framework--t%E1%BB%95ng-%C4%91i%E1%BB%83m-nh%C3%B3m-e--g--j-tr%E1%BB%8Dng-s%E1%BB%91-cao-nh%E1%BA%A5t).
+> - **prism** có artifact governance rất tốt (Nhóm C = 4.25, cao thứ 3 chỉ sau spec-kit và GSD) nhưng bị kéo tụt bởi **Bus factor = 1** (single maintainer) và **Maturity = 2.67** (1 contributor, chưa có community). Không khuyến nghị làm primary cho 500 eng — nhưng là candidate secondary mạnh nếu bạn chấp nhận rủi ro maintainer.
+> - **Với bối cảnh 500 engineers**, hãy ưu tiên các nhóm **E (15%) + G (12%) + J (12%) = 39% tổng trọng số**. Xem thứ hạng enterprise-fit ở [§5.3.2](#532-t%E1%BB%95ng-quan-6-framework--t%E1%BB%95ng-%C4%91i%E1%BB%83m-nh%C3%B3m-e--g--j-tr%E1%BB%8Dng-s%E1%BB%91-cao-nh%E1%BA%A5t).
 
 _Cách tính điểm chi tiết: xem [§5](#5-t%E1%BB%95ng-%C4%91i%E1%BB%83m--bi%E1%BB%83u-%C4%91%E1%BB%93-tr%E1%BB%B1c-quan)._
 
@@ -381,7 +386,77 @@ flowchart LR
 
 ---
 
-### 3.5 gstack (Garry Tan's personal toolkit)
+### 3.5 prism 🆕 (Phase-First Batch AI-SDLC Framework)
+
+| Attribute | Value |
+|---|---|
+| **Repo** | [prism-v1.1.0/](prism-v1.1.0/) |
+| **Version** | `v1.1.0` (Apr 2026) |
+| **Backer** | `thanhnl` (single maintainer, private/internal release) |
+| **Language** | Markdown + YAML + Bash (**zero runtime dependency**) |
+| **License** | Chưa ghi rõ trong repo |
+| **Core commands** | `start [product\|design\|arch\|plan\|test\|implement]`, `approve [phase]`, `feedback:` |
+
+**Triết lý (Philosophy — VI/EN):**
+> "**One Phase — One Prompt — One Complete Deliverable** — Batch Over Micro. Process entire phases as batches, not fragmented tasks."
+> — [prism-v1.1.0/.prism/README.md](prism-v1.1.0/.prism/README.md), [prism-v1.1.0/CLAUDE.md](prism-v1.1.0/CLAUDE.md)
+
+- **Điểm mạnh nổi bật:**
+  - **6 phase gated workflow** rõ ràng: Product → Design → Architecture → Plan → Test → Implement, với hard gates giữa mỗi phase (guided mode).
+  - **3 operating modes** (guided / freestyle / freedom) — cân bằng giữa formal approval và flexibility.
+  - **Strict template + YAML frontmatter** cho mọi artifact → cross-team consistency cao (điểm C = 4.25).
+  - **Role mapping hoàn chỉnh**: PO, UX, Architect, QA, Tech Lead, Dev — mỗi role có adapter riêng (`system-prompt-{mode}-{role}.md`).
+  - **Orbit versioning** (v1, v2, v3…) + **change pack** immutable — audit trail qua versioning tốt.
+  - **Zero runtime dependency** — chỉ markdown/YAML/Bash, không cần npm/pip/Homebrew.
+  - **4 platform adapter**: Claude Code, Cursor, Copilot, Codex.
+  - **i18n tiếng Việt** (README_vi.md có sẵn) — lợi thế cho team VN.
+- **Điểm yếu (nghiêm trọng):**
+  - ❌ **Bus factor = 1 (CRITICAL)** — single maintainer `thanhnl`, 1 commit trong git log, không community.
+  - ❌ **License chưa rõ ràng** — không có LICENSE file công khai → rủi ro pháp lý khi adopt ở enterprise.
+  - ❌ **Không có plugin/extension ecosystem** (điểm D17 = 2).
+  - ❌ **Không có hook system** — rules hardcoded trong markdown (điểm D18 = 2).
+  - ❌ **Scale chưa được chứng minh** — designed cho 500 eng nhưng chưa có proven case.
+  - ❌ **Metrics/observability = 0 built-in** — phải tự tích hợp external tool để đo (điểm K52 = 1).
+  - ❌ **Roadmap không minh bạch** — không có public roadmap, GitHub issues, discussions (điểm I45 = 1).
+  - ❌ **Multi-repo yếu** — single-project orientation, không có cross-repo artifact sharing.
+  - ❌ **No PM tool integration** — không sync Jira/Linear/Azure.
+
+**Workflow điển hình (6-phase gated):**
+
+```mermaid
+flowchart LR
+    A["start product<br/>PO role"] --> B{"approve<br/>product?"}
+    B -->|yes| C["start design<br/>UX role"]
+    B -->|yes| D["start arch<br/>Architect role"]
+    C --> E{"approve<br/>design?"}
+    D --> F{"approve<br/>arch?"}
+    E -->|yes| G["start plan<br/>Tech Lead"]
+    F -->|yes| G
+    E -->|yes| H["start test<br/>QA Lead"]
+    F -->|yes| H
+    G --> I{"approve<br/>plan?"}
+    H --> J{"approve<br/>test?"}
+    I -->|yes| K["start implement<br/>Dev"]
+    J -->|yes| K
+    K --> L["approve<br/>implement"]
+    style B fill:#e74c3c,color:#fff
+    style E fill:#e74c3c,color:#fff
+    style F fill:#e74c3c,color:#fff
+    style I fill:#e74c3c,color:#fff
+    style J fill:#e74c3c,color:#fff
+    style L fill:#27ae60,color:#fff
+```
+
+**Vị trí so với 5 framework còn lại:**
+- **vs spec-kit**: prism **template-strict document-centric** với 6-phase workflow cứng, spec-kit **flexible** hơn (chỉ 4-5 commands) và có constitution làm policy layer. spec-kit scale tốt hơn nhờ GitHub backing.
+- **vs BMAD-METHOD**: cả hai đều role-based và phase-driven, nhưng BMAD **iterative với named persona** (Mary/John/Winston/...), còn prism **batch single-persona per execution** — ít ceremony hơn nhưng cũng ít "collaboration feel" hơn.
+- **vs GSD**: GSD tối ưu cho **fresh-context subagents + ship nhanh**, còn prism tối ưu cho **formal approval gates + document governance**. Prism ngược hẳn với GSD's "anti-enterprise-theater" philosophy.
+- **vs superpowers**: superpowers là **methodology-as-skills auto-trigger**, prism là **phase-gate workflow**. Cách tiếp cận khác nhau hoàn toàn.
+- **vs gstack**: gstack là personal toolkit (1-person), prism designed cho multi-role team. Không so sánh trực tiếp.
+
+---
+
+### 3.6 gstack (Garry Tan's personal toolkit)
 
 | Attribute | Value |
 |---|---|
@@ -420,128 +495,128 @@ flowchart LR
 
 ### Nhóm A — Philosophy & Positioning (8%)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 1 | Core philosophy | 🟢 5 | 🟢 5 | 🟢 4 | 🟢 4 | 🟢 4 |
-| 2 | Problem statement | 🟢 5 | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 |
-| 3 | Target user (match 500 eng?) | 🟢 5 | 🟢 4 | 🟡 3 | 🔴 2 | 🔴 1 |
-| 4 | Opinionated level (balance) | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟢 4 |
-| | **Avg** | **4.75** | **4.25** | **3.75** | **3.25** | **3.00** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 1 | Core philosophy | 🟢 5 | 🟢 5 | 🟢 4 | 🟢 5 | 🟢 4 | 🟢 4 |
+| 2 | Problem statement | 🟢 5 | 🟢 4 | 🟢 4 | 🟢 5 | 🟢 4 | 🟡 3 |
+| 3 | Target user (match 500 eng?) | 🟢 5 | 🟢 4 | 🟡 3 | 🟢 4 | 🔴 2 | 🔴 1 |
+| 4 | Opinionated level (balance) | 🟢 4 | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟢 4 |
+| | **Avg** | **4.75** | **4.25** | **3.75** | **4.50** | **3.25** | **3.00** |
 
 ### Nhóm B — Architecture & Mechanics (8%)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 5 | Work breakdown model | 🟢 5 | 🟢 5 | 🟢 5 | 🟢 4 | 🟡 3 |
-| 6 | Agent architecture | 🟢 4 | 🟢 5 | 🟢 5 | 🟢 4 | 🟢 4 |
-| 7 | Orchestration pattern | 🟢 4 | 🟢 4 | 🟢 5 | 🟢 4 | 🟡 3 |
-| 8 | Context/Memory engineering | 🟢 5 | 🟢 4 | 🟢 5 | 🟡 3 | 🟡 3 |
-| 9 | State machine & phase gates | 🟢 5 | 🟢 5 | 🟢 5 | 🟡 3 | 🟡 3 |
-| | **Avg** | **4.60** | **4.60** | **5.00** | **3.60** | **3.20** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 5 | Work breakdown model | 🟢 5 | 🟢 5 | 🟢 5 | 🟢 4 | 🟢 4 | 🟡 3 |
+| 6 | Agent architecture | 🟢 4 | 🟢 5 | 🟢 5 | 🟡 3 | 🟢 4 | 🟢 4 |
+| 7 | Orchestration pattern | 🟢 4 | 🟢 4 | 🟢 5 | 🟢 5 | 🟢 4 | 🟡 3 |
+| 8 | Context/Memory engineering | 🟢 5 | 🟢 4 | 🟢 5 | 🟢 4 | 🟡 3 | 🟡 3 |
+| 9 | State machine & phase gates | 🟢 5 | 🟢 5 | 🟢 5 | 🟢 5 | 🟡 3 | 🟡 3 |
+| | **Avg** | **4.60** | **4.60** | **5.00** | **4.20** | **3.60** | **3.20** |
 
 ### Nhóm C — Artifacts & Standards (8%)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 10 | Artefact directory structure | 🟢 5 | 🟢 4 | 🟢 5 | 🔴 2 | 🔴 2 |
-| 11 | Schema strictness | 🟢 5 | 🟢 4 | 🟢 4 | 🟡 3 | 🔴 2 |
-| 12 | Traceability (req→code→test) | 🟢 4 | 🟢 4 | 🟢 5 | 🟡 3 | 🟡 3 |
-| 13 | Decision logging | 🟢 5 | 🟢 4 | 🟢 5 | 🟡 3 | 🔴 2 |
-| | **Avg** | **4.75** | **4.00** | **4.75** | **2.75** | **2.25** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 10 | Artefact directory structure | 🟢 5 | 🟢 4 | 🟢 5 | 🟢 5 | 🔴 2 | 🔴 2 |
+| 11 | Schema strictness | 🟢 5 | 🟢 4 | 🟢 4 | 🟢 5 | 🟡 3 | 🔴 2 |
+| 12 | Traceability (req→code→test) | 🟢 4 | 🟢 4 | 🟢 5 | 🟡 3 | 🟡 3 | 🟡 3 |
+| 13 | Decision logging | 🟢 5 | 🟢 4 | 🟢 5 | 🟢 4 | 🟡 3 | 🔴 2 |
+| | **Avg** | **4.75** | **4.00** | **4.75** | **4.25** | **2.75** | **2.25** |
 
 ### Nhóm D — Tooling & Integration (8%)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 14 | Supported IDEs/agents | 🟢 5 (30+) | 🟢 5 (16+) | 🟢 5 (14) | 🟢 4 (6) | 🟢 4 (10) |
-| 15 | Impl language & dep weight | 🟢 4 | 🟢 5 | 🟢 4 | 🟢 5 | 🟡 3 |
-| 16 | CLI installer features | 🟢 5 | 🟢 5 | 🟢 4 | 🟡 3 | 🟡 3 |
-| 17 | Plugin/extension ecosystem | 🟢 5 (100+) | 🟡 3 | 🟡 3 | 🔴 2 | 🔴 2 |
-| 18 | Hook system | 🟡 3 | 🟡 3 | 🟢 4 | 🟡 3 | 🟡 3 |
-| | **Avg** | **4.40** | **4.20** | **4.00** | **3.40** | **3.00** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 14 | Supported IDEs/agents | 🟢 5 (30+) | 🟢 5 (16+) | 🟢 5 (14) | 🟢 5 (4) | 🟢 4 (6) | 🟢 4 (10) |
+| 15 | Impl language & dep weight | 🟢 4 | 🟢 5 | 🟢 4 | 🟢 5 | 🟢 5 | 🟡 3 |
+| 16 | CLI installer features | 🟢 5 | 🟢 5 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 |
+| 17 | Plugin/extension ecosystem | 🟢 5 (100+) | 🟡 3 | 🟡 3 | 🔴 2 | 🔴 2 | 🔴 2 |
+| 18 | Hook system | 🟡 3 | 🟡 3 | 🟢 4 | 🔴 2 | 🟡 3 | 🟡 3 |
+| | **Avg** | **4.40** | **4.20** | **4.00** | **3.60** | **3.40** | **3.00** |
 
 ### Nhóm E — Enterprise Readiness (15% — trọng số cao nhất)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 19 | Governance (constitution, config…) | 🟢 5 | 🟢 4 | 🟡 3 | 🔴 2 | 🔴 2 |
-| 20 | Scale ceiling | 🟢 4 | 🟡 3 | 🟡 3 | 🔴 2 | 🔴 2 |
-| 21 | Multi-repo/monorepo | 🟢 4 | 🟡 3 | 🟢 4 | 🔴 2 | 🟡 3 |
-| 22 | CI/CD integration | 🟢 4 | 🟡 3 | 🟢 4 | 🟡 3 | 🟡 3 |
-| 23 | Security (prompt injection, OWASP) | 🟢 4 | 🟢 4 | 🟢 4 | 🔴 2 | 🟢 5 |
-| 24 | Audit trail | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 |
-| 25 | Onboarding cost | 🟢 4 | 🟡 3 | 🟡 3 | 🟢 4 | 🟢 4 |
-| | **Avg** | **4.14** | **3.43** | **3.57** | **2.57** | **3.14** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 19 | Governance (constitution, config…) | 🟢 5 | 🟢 4 | 🟡 3 | 🟢 4 | 🔴 2 | 🔴 2 |
+| 20 | Scale ceiling | 🟢 4 | 🟡 3 | 🟡 3 | 🔴 2 | 🔴 2 | 🔴 2 |
+| 21 | Multi-repo/monorepo | 🟢 4 | 🟡 3 | 🟢 4 | 🔴 2 | 🔴 2 | 🟡 3 |
+| 22 | CI/CD integration | 🟢 4 | 🟡 3 | 🟢 4 | 🟡 3 | 🟡 3 | 🟡 3 |
+| 23 | Security (prompt injection, OWASP) | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🔴 2 | 🟢 5 |
+| 24 | Audit trail | 🟢 4 | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 |
+| 25 | Onboarding cost | 🟢 4 | 🟡 3 | 🟡 3 | 🟡 3 | 🟢 4 | 🟢 4 |
+| | **Avg** | **4.14** | **3.43** | **3.57** | **3.00** | **2.57** | **3.14** |
 
 ### Nhóm F — Maturity & Risk (6%)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 26 | Version/commits/contributors/community | 🟢 5 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 |
-| 27 | Lock-in risk | 🟢 5 | 🟢 4 | 🟢 5 | 🟢 4 | 🟢 4 |
-| 28 | Stack/domain bias | 🟢 5 | 🟢 4 | 🟢 5 | 🟢 4 | 🟡 3 |
-| | **Avg** | **5.00** | **4.00** | **4.67** | **3.67** | **3.33** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 26 | Version/commits/contributors/community | 🟢 5 | 🟢 4 | 🟢 4 | 🔴 2 | 🟡 3 | 🟡 3 |
+| 27 | Lock-in risk | 🟢 5 | 🟢 4 | 🟢 5 | 🟡 3 | 🟢 4 | 🟢 4 |
+| 28 | Stack/domain bias | 🟢 5 | 🟢 4 | 🟢 5 | 🟡 3 | 🟢 4 | 🟡 3 |
+| | **Avg** | **5.00** | **4.00** | **4.67** | **2.67** | **3.67** | **3.33** |
 
 ### Nhóm G — Organizational & People Fit (12%)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 29 | SDLC fit (Scrum/Kanban/SAFe) | 🟢 5 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 |
-| 30 | PM tool integration | 🟢 4 | 🔴 2 | 🔴 2 | 🔴 1 | 🔴 1 |
-| 31 | Role mapping | 🟡 3 | 🟢 5 | 🟢 4 | 🟡 3 | 🟢 5 |
-| 32 | Collaboration model | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟢 4 |
-| 33 | i18n docs/prompts | 🔴 2 | 🟢 5 | 🟢 5 | 🔴 1 | 🔴 1 |
-| 34 | Bus factor | 🟢 5 | 🟡 3 | 🔴 2 | 🔴 1 | 🔴 1 |
-| 35 | Role-specific learning curve | 🟢 4 | 🟡 3 | 🟡 3 | 🟢 4 | 🟢 4 |
-| | **Avg** | **3.86** | **3.71** | **3.43** | **2.29** | **2.71** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 29 | SDLC fit (Scrum/Kanban/SAFe) | 🟢 5 | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 |
+| 30 | PM tool integration | 🟢 4 | 🔴 2 | 🔴 2 | 🔴 2 | 🔴 1 | 🔴 1 |
+| 31 | Role mapping | 🟡 3 | 🟢 5 | 🟢 4 | 🟢 5 | 🟡 3 | 🟢 5 |
+| 32 | Collaboration model | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 | 🟢 4 |
+| 33 | i18n docs/prompts | 🔴 2 | 🟢 5 | 🟢 5 | 🟢 4 | 🔴 1 | 🔴 1 |
+| 34 | Bus factor | 🟢 5 | 🟡 3 | 🔴 2 | 🔴 1 | 🔴 1 | 🔴 1 |
+| 35 | Role-specific learning curve | 🟢 4 | 🟡 3 | 🟡 3 | 🟢 4 | 🟢 4 | 🟢 4 |
+| | **Avg** | **3.86** | **3.71** | **3.43** | **3.29** | **2.29** | **2.71** |
 
 ### Nhóm H — TCO (8%)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 36 | License & hosting cost | 🟢 5 | 🟢 5 | 🟢 5 | 🟢 5 | 🟢 5 |
-| 37 | Token cost optimization | 🟢 4 | 🟢 4 | 🟢 5 | 🟢 4 | 🟢 4 |
-| 38 | Training effort | 🟢 4 | 🟡 3 | 🟡 3 | 🟢 4 | 🟢 4 |
-| 39 | Time-to-value | 🟢 4 | 🟡 3 | 🟡 3 | 🟢 4 | 🟢 5 |
-| 40 | Vendor stability | 🟢 5 | 🟡 3 | 🟡 3 | 🟡 3 | 🟢 4 |
-| | **Avg** | **4.40** | **3.60** | **3.80** | **4.00** | **4.40** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 36 | License & hosting cost | 🟢 5 | 🟢 5 | 🟢 5 | 🟡 3 | 🟢 5 | 🟢 5 |
+| 37 | Token cost optimization | 🟢 4 | 🟢 4 | 🟢 5 | 🟢 4 | 🟢 4 | 🟢 4 |
+| 38 | Training effort | 🟢 4 | 🟡 3 | 🟡 3 | 🟡 3 | 🟢 4 | 🟢 4 |
+| 39 | Time-to-value | 🟢 4 | 🟡 3 | 🟡 3 | 🟢 4 | 🟢 4 | 🟢 5 |
+| 40 | Vendor stability | 🟢 5 | 🟡 3 | 🟡 3 | 🔴 2 | 🟡 3 | 🟢 4 |
+| | **Avg** | **4.40** | **3.60** | **3.80** | **3.20** | **4.00** | **4.40** |
 
 ### Nhóm I — Strategic Risk (5%)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 41 | Data residency | 🟢 5 | 🟢 5 | 🟢 5 | 🟢 5 | 🟢 5 |
-| 42 | IP clause generated code | 🟢 4 | 🟢 4 | 🟢 4 | 🟢 4 | 🟢 4 |
-| 43 | Regulatory alignment | 🟡 3 | 🟡 3 | 🟡 3 | 🔴 2 | 🟡 3 |
-| 44 | Bus factor & fork feasibility | 🟢 5 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 |
-| 45 | Roadmap transparency | 🟡 3 | 🟢 4 | 🟢 4 | 🔴 2 | 🟢 5 |
-| | **Avg** | **4.00** | **4.00** | **4.00** | **3.20** | **4.00** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 41 | Data residency | 🟢 5 | 🟢 5 | 🟢 5 | 🟢 5 | 🟢 5 | 🟢 5 |
+| 42 | IP clause generated code | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟢 4 | 🟢 4 |
+| 43 | Regulatory alignment | 🟡 3 | 🟡 3 | 🟡 3 | 🔴 2 | 🔴 2 | 🟡 3 |
+| 44 | Bus factor & fork feasibility | 🟢 5 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 | 🟡 3 |
+| 45 | Roadmap transparency | 🟡 3 | 🟢 4 | 🟢 4 | 🔴 1 | 🔴 2 | 🟢 5 |
+| | **Avg** | **4.00** | **4.00** | **4.00** | **2.80** | **3.20** | **4.00** |
 
 ### Nhóm J — Operational Scale cho 500 engineers (12% — trọng số cao)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 46 | Cross-team artefact consistency | 🟢 5 | 🟢 4 | 🟡 3 | 🔴 2 | 🔴 2 |
-| 47 | Artefact searchability/reuse | 🟢 4 | 🟡 3 | 🟡 3 | 🔴 2 | 🔴 2 |
-| 48 | Multi-feature parallel execution | 🟢 5 | 🟢 4 | 🟢 5 | 🟡 3 | 🟢 4 |
-| 49 | Runtime performance/overhead | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟢 4 |
-| | **Avg** | **4.50** | **3.75** | **3.75** | **2.50** | **3.00** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 46 | Cross-team artefact consistency | 🟢 5 | 🟢 4 | 🟡 3 | 🟢 4 | 🔴 2 | 🔴 2 |
+| 47 | Artefact searchability/reuse | 🟢 4 | 🟡 3 | 🟡 3 | 🔴 2 | 🔴 2 | 🔴 2 |
+| 48 | Multi-feature parallel execution | 🟢 5 | 🟢 4 | 🟢 5 | 🟡 3 | 🟡 3 | 🟢 4 |
+| 49 | Runtime performance/overhead | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 | 🟢 4 |
+| | **Avg** | **4.50** | **3.75** | **3.75** | **3.00** | **2.50** | **3.00** |
 
 ### Nhóm K — Organizational Standards (8%)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 50 | Fork/customize "internal edition" | 🟢 5 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 |
-| 51 | Skill/template distribution | 🟢 5 | 🟢 4 | 🟡 3 | 🟡 3 | 🟡 3 |
-| 52 | Metrics/observability | 🟡 3 | 🟡 3 | 🟡 3 | 🔴 2 | 🟢 4 |
-| | **Avg** | **4.33** | **3.67** | **3.33** | **2.67** | **3.33** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 50 | Fork/customize "internal edition" | 🟢 5 | 🟢 4 | 🟢 4 | 🟢 4 | 🟡 3 | 🟡 3 |
+| 51 | Skill/template distribution | 🟢 5 | 🟢 4 | 🟡 3 | 🟡 3 | 🟡 3 | 🟡 3 |
+| 52 | Metrics/observability | 🟡 3 | 🟡 3 | 🟡 3 | 🔴 1 | 🔴 2 | 🟢 4 |
+| | **Avg** | **4.33** | **3.67** | **3.33** | **2.67** | **2.67** | **3.33** |
 
 ### Nhóm L — Evolution (2%)
 
-| # | Tiêu chí | spec-kit | BMAD | GSD | superpowers | gstack |
-|---:|---|:---:|:---:|:---:|:---:|:---:|
-| 53 | AI model portability | 🟢 5 | 🟢 4 | 🟢 5 | 🟢 4 | 🟢 4 |
-| | **Avg** | **5.00** | **4.00** | **5.00** | **4.00** | **4.00** |
+| # | Tiêu chí | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---:|---|:---:|:---:|:---:|:---:|:---:|:---:|
+| 53 | AI model portability | 🟢 5 | 🟢 4 | 🟢 5 | 🟡 3 | 🟢 4 | 🟢 4 |
+| | **Avg** | **5.00** | **4.00** | **5.00** | **3.00** | **4.00** | **4.00** |
 
 ---
 
@@ -549,27 +624,28 @@ flowchart LR
 
 ### 5.1 Bảng tổng điểm (weighted score)
 
-| Nhóm | Trọng số | spec-kit | BMAD | GSD | superpowers | gstack |
-|---|:---:|:---:|:---:|:---:|:---:|:---:|
-| A. Philosophy | 8% | 4.75 | 4.25 | 3.75 | 3.25 | 3.00 |
-| B. Architecture | 8% | 4.60 | 4.60 | 5.00 | 3.60 | 3.20 |
-| C. Artifacts | 8% | 4.75 | 4.00 | 4.75 | 2.75 | 2.25 |
-| D. Tooling | 8% | 4.40 | 4.20 | 4.00 | 3.40 | 3.00 |
-| **E. Enterprise Readiness** | **15%** | **4.14** | **3.43** | **3.57** | **2.57** | **3.14** |
-| F. Maturity | 6% | 5.00 | 4.00 | 4.67 | 3.67 | 3.33 |
-| **G. Organizational Fit** | **12%** | **3.86** | **3.71** | **3.43** | **2.29** | **2.71** |
-| H. TCO | 8% | 4.40 | 3.60 | 3.80 | 4.00 | 4.40 |
-| I. Strategic Risk | 5% | 4.00 | 4.00 | 4.00 | 3.20 | 4.00 |
-| **J. Operational Scale** | **12%** | **4.50** | **3.75** | **3.75** | **2.50** | **3.00** |
-| K. Org Standards | 8% | 4.33 | 3.67 | 3.33 | 2.67 | 3.33 |
-| L. Evolution | 2% | 5.00 | 4.00 | 5.00 | 4.00 | 4.00 |
-| **Weighted Avg (thang 5)** | **100%** | **4.40** | **3.88** | **3.95** | **2.99** | **3.17** |
-| **Weighted Score (thang 100)** | | **🥇 88** | **🥉 77** | **🥈 79** | **60** | **63** |
+| Nhóm | Trọng số | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| A. Philosophy | 8% | 4.75 | 4.25 | 3.75 | 4.50 | 3.25 | 3.00 |
+| B. Architecture | 8% | 4.60 | 4.60 | 5.00 | 4.20 | 3.60 | 3.20 |
+| C. Artifacts | 8% | 4.75 | 4.00 | 4.75 | 4.25 | 2.75 | 2.25 |
+| D. Tooling | 8% | 4.40 | 4.20 | 4.00 | 3.60 | 3.40 | 3.00 |
+| **E. Enterprise Readiness** | **15%** | **4.14** | **3.43** | **3.57** | **3.00** | **2.57** | **3.14** |
+| F. Maturity | 6% | 5.00 | 4.00 | 4.67 | 2.67 | 3.67 | 3.33 |
+| **G. Organizational Fit** | **12%** | **3.86** | **3.71** | **3.43** | **3.29** | **2.29** | **2.71** |
+| H. TCO | 8% | 4.40 | 3.60 | 3.80 | 3.20 | 4.00 | 4.40 |
+| I. Strategic Risk | 5% | 4.00 | 4.00 | 4.00 | 2.80 | 3.20 | 4.00 |
+| **J. Operational Scale** | **12%** | **4.50** | **3.75** | **3.75** | **3.00** | **2.50** | **3.00** |
+| K. Org Standards | 8% | 4.33 | 3.67 | 3.33 | 2.67 | 2.67 | 3.33 |
+| L. Evolution | 2% | 5.00 | 4.00 | 5.00 | 3.00 | 4.00 | 4.00 |
+| **Weighted Avg (thang 5)** | **100%** | **4.40** | **3.88** | **3.95** | **3.36** | **2.99** | **3.17** |
+| **Weighted Score (thang 100)** | | **🥇 88** | **🥉 77** | **🥈 79** | **67** | **60** | **63** |
 
 > **Lưu ý quan trọng về thứ hạng:**
-> - Xét theo **tổng weighted score**: spec-kit (88) > GSD (79) > BMAD (77) > gstack (63) > superpowers (60).
+> - Xét theo **tổng weighted score**: spec-kit (88) > GSD (79) > BMAD (77) > **prism (67)** > gstack (63) > superpowers (60).
 > - GSD xếp trên BMAD về tổng điểm nhờ nhóm **B (Architecture = 5.0)** và **F (Maturity = 4.67)** — nhưng _enterprise-fit_ (nhóm E+G+J) của BMAD thực tế gần bằng GSD (3.63 vs 3.58).
-> - Do đó khuyến nghị ở [§7](#7-khuy%E1%BA%BFn-ngh%E1%BB%8B-cu%E1%BB%91i-cho-t%E1%BB%95-ch%E1%BB%A9c-500-engineers) **vẫn đặt BMAD làm secondary** cho product teams (vì role mapping + i18n Việt Nam + lifecycle 4 phases tốt hơn), còn GSD làm **sandbox cho innovation squads**. Score tổng không phải yếu tố quyết định duy nhất.
+> - **prism** có thế mạnh rõ rệt ở Philosophy (4.50), Architecture (4.20), Artifacts (4.25) và **SDLC/Role mapping** — nhóm phù hợp với tổ chức có quy trình chuẩn. Nhưng bị kéo tụt bởi **Maturity (2.67)**, **Strategic Risk (2.80)**, **Org Standards (2.67)** do single-maintainer và chưa có community. Enterprise-fit E+G+J = **3.09** (xếp thứ 4, trên superpowers và gstack).
+> - Do đó khuyến nghị ở [§7](#7-khuy%E1%BA%BFn-ngh%E1%BB%8B-cu%E1%BB%91i-cho-t%E1%BB%95-ch%E1%BB%A9c-500-engineers) **vẫn đặt BMAD làm secondary** cho product teams (vì role mapping + i18n Việt Nam + lifecycle 4 phases tốt hơn), còn GSD làm **sandbox cho innovation squads**. **prism** được đặt ở vị trí **secondary alternative / PoC candidate** — hợp nếu tổ chức muốn workflow gated rất chặt và chấp nhận rủi ro maturity. Score tổng không phải yếu tố quyết định duy nhất.
 
 #### 5.2 Cách tính weighted score
 
@@ -584,6 +660,7 @@ spec-kit    = 4.75×0.08 + 4.60×0.08 + 4.75×0.08 + 4.40×0.08 + 4.14×0.15
 
 GSD         = 3.948 → ×20 = 79.0
 BMAD        = 3.875 → ×20 = 77.5
+prism       = 3.358 → ×20 = 67.2   🆕
 gstack      = 3.170 → ×20 = 63.4
 superpowers = 2.994 → ×20 = 59.9
 ```
@@ -605,14 +682,14 @@ xychart-beta
 
 > Mapping x-axis: A=Philosophy, B=Architecture, C=Artifacts, D=Tooling, E=Enterprise, F=Maturity, G=Organizational, H=TCO, I=Risk, J=Scale, K=Std, L=Evolution.
 
-#### 5.3.2 Tổng quan 5 framework — tổng điểm nhóm E + G + J (trọng số cao nhất)
+#### 5.3.2 Tổng quan 6 framework — tổng điểm nhóm E + G + J (trọng số cao nhất)
 
 ```mermaid
 xychart-beta
     title "Enterprise fit score (nhóm E+G+J weighted) — thang 5"
-    x-axis [speckit, BMAD, GSD, superpowers, gstack]
+    x-axis [speckit, BMAD, GSD, prism, superpowers, gstack]
     y-axis "Score" 0 --> 5
-    bar [4.17, 3.63, 3.58, 2.45, 2.95]
+    bar [4.17, 3.63, 3.58, 3.09, 2.45, 2.95]
 ```
 
 #### 5.3.3 Radar chart style (bubble layout — dùng Mermaid flowchart làm biểu tượng)
@@ -629,18 +706,19 @@ quadrantChart
     speckit: [0.70, 0.85]
     BMAD: [0.55, 0.72]
     GSD: [0.75, 0.68]
+    prism: [0.55, 0.62]
     superpowers: [0.60, 0.40]
     gstack: [0.82, 0.55]
 ```
 
-### 5.4 Bảng so sánh 5 "đặc điểm đinh" (distinctive)
+### 5.4 Bảng so sánh 6 "đặc điểm đinh" (distinctive)
 
-| Đặc điểm | spec-kit | BMAD | GSD | superpowers | gstack |
-|---|---|---|---|---|---|
-| **Killer feature** | Constitution + phase gates + 100+ extensions | 6 named personas + Party Mode + i18n VN | Fresh-context subagents + D-## gates | Mandatory skills auto-trigger + TDD | Browser daemon + `/cso` OWASP |
-| **Killer weakness** | Pre-1.0, English-only | Scale > 50 teams unproven | Anti-enterprise culture | 94% PR rejection, single maintainer | **Personal toolkit, not a framework** |
-| **Backing** | **GitHub Inc** ✅ | LLC + community | Solo maintainer | Solo maintainer | Solo (Garry Tan) |
-| **Scale evidence** | GitHub-backed ecosystem | 1000+ Discord | ~40 stars | Small | Solo-focused |
+| Đặc điểm | spec-kit | BMAD | GSD | prism 🆕 | superpowers | gstack |
+|---|---|---|---|---|---|---|
+| **Killer feature** | Constitution + phase gates + 100+ extensions | 6 named personas + Party Mode + i18n VN | Fresh-context subagents + D-## gates | 6-phase gated workflow + 3 modes (guided/freestyle/freedom) + zero-dep | Mandatory skills auto-trigger + TDD | Browser daemon + `/cso` OWASP |
+| **Killer weakness** | Pre-1.0, English-only | Scale > 50 teams unproven | Anti-enterprise culture | **Bus factor = 1, license unclear, no community** | 94% PR rejection, single maintainer | **Personal toolkit, not a framework** |
+| **Backing** | **GitHub Inc** ✅ | LLC + community | Solo maintainer | Single maintainer (thanhnl) | Solo maintainer | Solo (Garry Tan) |
+| **Scale evidence** | GitHub-backed ecosystem | 1000+ Discord | ~40 stars | 1 commit in git log, untested | Small | Solo-focused |
 
 ---
 
@@ -660,7 +738,8 @@ quadrantChart
 |---|---|
 | 🥇 **BMAD-METHOD** | 6 persona map vào roles thực (PM/Arch/QA/UX/Dev), i18n VN, lifecycle 4 phase. |
 | 🥈 spec-kit | Nếu team sẵn sàng spec-first. |
-| 🥉 GSD (pilot) | Cho 1-2 squad R&D. |
+| 🥉 **prism** 🆕 | Nếu team muốn phase-gate chặt + role mapping hoàn chỉnh + i18n VN; chấp nhận rủi ro bus factor. |
+| | GSD (pilot) cho 1-2 squad R&D. |
 
 ### 6.3 Scenario 3 — **Mid-to-large 300–800 engineers (BỐI CẢNH CỦA BẠN) ⭐**
 
@@ -671,6 +750,7 @@ quadrantChart
 | 🥇 **spec-kit** (primary) | Constitution = policy layer org-wide, 100+ extensions, backed bởi GitHub, scale proven. |
 | 🥈 **BMAD-METHOD** (secondary) | Dùng cho product teams cần persona rõ ràng (PM/Arch/UX). |
 | 🥉 **superpowers** (overlay) | Dùng như methodology layer — enforce TDD, code review. |
+| Alternative secondary | **prism** 🆕 — cân nhắc cho 1-2 team chuộng document-discipline + phase gates chặt; **CHỈ khi** đã thẩm định license và chấp nhận rủi ro maintainer. |
 | Sandbox | **GSD** cho 1-2 squad innovation; **gstack** cho 1-2 founder/staff eng cá nhân. |
 
 ### 6.4 Scenario 4 — Enterprise regulated 1000+ engineers (banking/healthcare)
@@ -687,6 +767,7 @@ quadrantChart
 |---|---|
 | 🥇 **BMAD-METHOD** | Persona + lifecycle rõ, dễ train consultant onboarding, i18n. |
 | 🥈 **spec-kit** | Specs portable cho client. |
+| 🥉 **prism** 🆕 | 6-phase deliverable rõ ràng → bàn giao khách theo milestone; artifact strict → dễ audit cho khách; i18n VN phù hợp thị trường VN. |
 
 ### 6.6 Scenario 6 — Solo founder/duo builder
 
@@ -710,6 +791,7 @@ flowchart TB
         B["BMAD-METHOD<br/>Product teams<br/>PM/Arch/QA/UX roles"]
         C["GSD<br/>Innovation squads<br/>Platform R&D"]
         D["superpowers<br/>Quality-first teams<br/>TDD enforcement"]
+        P["prism (PoC)<br/>Document-discipline teams<br/>6-phase gated workflow"]
     end
     subgraph L3 ["Layer 3 — Personal"]
         E["gstack<br/>Staff+ engineers cá nhân<br/>Founder productivity"]
@@ -720,6 +802,7 @@ flowchart TB
     style B fill:#3498db,color:#fff
     style C fill:#f39c12,color:#fff
     style D fill:#9b59b6,color:#fff
+    style P fill:#1abc9c,color:#fff
     style E fill:#95a5a6,color:#fff
 ```
 
@@ -728,7 +811,13 @@ flowchart TB
   - Product teams (có PM/UX/QA) → **BMAD-METHOD** (6 persona).
   - Innovation/R&D → **GSD** (fresh-context, parallel phases).
   - Backend/Platform chuộng TDD → **superpowers** (RED-GREEN-REFACTOR bắt buộc).
+  - Team chuộng document-discipline + phase gates cứng → **prism** 🆕 (PoC, 1-2 team trước khi nhân rộng).
 - **Layer 3 (cá nhân):** Staff+ engineers hoặc founder có thể adopt **gstack** cho workflow riêng, không bắt buộc.
+
+> **Lưu ý khi chọn prism:** Trước khi adopt ở quy mô team production, cần giải quyết 3 vấn đề chặn:
+> 1. **License chưa rõ** — phải xin license chính thức từ maintainer hoặc tự fork và dùng license nội bộ.
+> 2. **Bus factor = 1** — cân nhắc ký cam kết với maintainer hoặc fork vào internal repo, duy trì patch-level riêng.
+> 3. **Untested scale** — chạy PoC 2-3 tháng với 1-2 team trước khi quyết định mở rộng.
 
 ### 7.2 Rationale vì sao spec-kit là primary
 
@@ -748,6 +837,7 @@ flowchart TB
 |---|---|
 | **BMAD-METHOD** | Scale > 50 teams **chưa được chứng minh công khai**. Tốt làm secondary cho product teams. |
 | **GSD** | Chính tác giả tuyên bố **anti-enterprise-theater**. Bus factor cao (solo maintainer). Tốt cho pilot. |
+| **prism** 🆕 | **Bus factor = 1** (1 commit trong git log, 1 contributor), **license chưa rõ**, **scale chưa test ở 500 eng**, **không có community**. Strength ở artifact governance rất tốt nhưng quá non trẻ để đặt cược org-wide. Tốt làm PoC / secondary cho 1-2 team. |
 | **superpowers** | **Single maintainer + 94% PR rejection** → bus factor rất cao cho org 500 eng. Tốt làm quality overlay. |
 | **gstack** | **KHÔNG phải framework tổ chức** — là personal toolkit của Garry Tan. Không có team-mode thực sự. |
 
@@ -765,13 +855,16 @@ gantt
     Internal extension catalog fork   :b1, 2026-06-15, 30d
     CI gates plan-review extension    :b2, after b1, 15d
     Training playbook and VN docs     :b3, 2026-06-15, 45d
+    prism license and bus factor eval :b4, 2026-06-15, 30d
     section M3 Scale out
     Rollout 10 product teams          :c1, 2026-08-01, 45d
     BMAD overlay training PM UX       :c2, 2026-08-01, 30d
+    prism PoC 1-2 team                :c3, 2026-08-01, 60d
     section M4 Mature
     superpowers overlay quality       :d1, 2026-09-15, 30d
     GSD sandbox innovation squad      :d2, 2026-09-15, 30d
     Metrics dashboard                 :d3, 2026-10-01, 30d
+    prism PoC review decision         :d4, 2026-10-01, 15d
     section M5 Steady state
     Full org adoption                 :e1, 2026-11-01, 30d
 ```
@@ -779,9 +872,9 @@ gantt
 | Milestone | Mục tiêu chính | KPI |
 |---|---|---|
 | **M1 Pilot (Month 1–2)** | 2 squad pilot spec-kit, draft constitution v1 | Ship 1 feature/squad qua spec-kit full cycle |
-| **M2 Platform setup (Month 2–4)** | Fork catalog.community.json thành internal; dịch docs VN; CI gates | Plan-review-gate active trên 100% PR |
-| **M3 Scale out (Month 4–6)** | 10 product teams dùng spec-kit + BMAD overlay | 80% feature có spec.md commit trước code |
-| **M4 Mature (Month 5–7)** | superpowers layer cho backend teams; GSD sandbox | TDD coverage ≥ 60% trên teams adopted |
+| **M2 Platform setup (Month 2–4)** | Fork catalog.community.json thành internal; dịch docs VN; CI gates; **đánh giá license + bus factor của prism** | Plan-review-gate active trên 100% PR; prism license resolved yes/no |
+| **M3 Scale out (Month 4–6)** | 10 product teams dùng spec-kit + BMAD overlay; **prism PoC 1-2 team (nếu M2 đánh giá pass)** | 80% feature có spec.md commit trước code |
+| **M4 Mature (Month 5–7)** | superpowers layer cho backend teams; GSD sandbox; **review kết quả prism PoC → go/no-go** | TDD coverage ≥ 60% trên teams adopted; prism PoC có kết luận |
 | **M5 Steady state (Month 6+)** | Full org adoption, observability dashboard | Cycle time feature giảm 30%+ |
 
 ### 7.5 Ước tính TCO cho 500 engineers (6 tháng đầu)
@@ -842,6 +935,18 @@ gantt
 - [gstack/CHANGELOG.md](gstack/CHANGELOG.md)
 - [gstack/TODOS.md](gstack/TODOS.md)
 
+#### prism 🆕
+- [prism-v1.1.0/.prism/README.md](prism-v1.1.0/.prism/README.md)
+- [prism-v1.1.0/.prism/README_vi.md](prism-v1.1.0/.prism/README_vi.md)
+- [prism-v1.1.0/CLAUDE.md](prism-v1.1.0/CLAUDE.md)
+- [prism-v1.1.0/.prism/core/orchestrator.md](prism-v1.1.0/.prism/core/orchestrator.md)
+- [prism-v1.1.0/.prism/core/phase-quality-standards.md](prism-v1.1.0/.prism/core/phase-quality-standards.md)
+- [prism-v1.1.0/.prism/core/version-manager.md](prism-v1.1.0/.prism/core/version-manager.md)
+- [prism-v1.1.0/.prism/core/change-manager.md](prism-v1.1.0/.prism/core/change-manager.md)
+- [prism-v1.1.0/.prism/core/safety-guard.md](prism-v1.1.0/.prism/core/safety-guard.md)
+- [prism-v1.1.0/.prism/prism.json](prism-v1.1.0/.prism/prism.json)
+- [prism-v1.1.0/.prism/VERSION](prism-v1.1.0/.prism/VERSION)
+
 ### 8.2 Thuật ngữ (Glossary — VI/EN)
 
 | Thuật ngữ EN | Tiếng Việt | Ý nghĩa |
@@ -873,3 +978,4 @@ gantt
 
 _Báo cáo kết thúc._
 _Viết bởi CTO-agent, Claude Opus 4.7 (1M context), 2026-04-24._
+_Bản v2 (2026-04-24): bổ sung framework **prism v1.1.0** vào đánh giá; giữ nguyên toàn bộ đánh giá 5 framework cũ._
